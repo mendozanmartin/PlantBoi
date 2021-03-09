@@ -1,6 +1,6 @@
 const mqtt = require("mqtt");
 const clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
-
+const { ipcRenderer } = require("electron");
 const host = "mqtt://broker.hivemq.com:1883";
 const options = {
   keepalive: 30,
@@ -43,4 +43,5 @@ client.on("message", (topic, message, packet) => {
   console.log(
     "Received Message: " + message.toString() + "\nOn topic: " + topic
   );
+  ipcRenderer.sendSync("message", "command");
 });
